@@ -1,11 +1,11 @@
-# WuWa Mobile Config - Ultimate Edition v3.5
+# WuWa Mobile Config - Ultimate Edition v3.6
 
 ![Target Device](https://img.shields.io/badge/Target_Device-Snapdragon_8_Elite-red?style=for-the-badge)
 ![Memory](https://img.shields.io/badge/Memory-16GB_RAM-blue?style=for-the-badge)
 ![FPS](https://img.shields.io/badge/Target_FPS-120-green?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-v3.5-gold?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-v3.6-gold?style=for-the-badge)
 
-Welcome to the **Ultimate Edition v3.5** configuration for Wuthering Waves on Android. This project is meticulously tuned for next-generation mobile hardware, specifically the **Snapdragon 8 Elite (Gen 5)** and devices with **16GB+ RAM** (like the RedMagic 11 Pro). 
+Welcome to the **Ultimate Edition v3.6** configuration for Wuthering Waves on Android. This project is meticulously tuned for next-generation mobile hardware, specifically the **Snapdragon 8 Elite (Gen 5)** and devices with **16GB+ RAM** (like the RedMagic 11 Pro). 
 
 Experience Wuthering Waves with desktop-class fidelity, stable 120 FPS performance via native frame generation, and a professional-grade visual presentation.
 
@@ -117,7 +117,15 @@ The "Ultimate Edition" is split across 5 specialized files for modular performan
 
 ## 📜 Changelog
 
-### **v3.5 (Latest)**
+### **v3.6 (Latest)**
+- **UFS 4.0 Optimization**: Increased streaming bandwidth to 100MB/s and enabled amortized CPU usage for seamless loading.
+- **Physics Threading**: Increased Chaos worker threads to 6 to fully utilize the Snapdragon 8 Elite's performance cluster.
+- **Shader Cache Enhancement**: Enabled Vulkan pipeline cache (256MB) and mobile shader cache to eliminate region-entry stutters.
+- **Architectural Cleanup**: Centralized all engine logic into `Engine.ini` and streamlined `DeviceProfiles.ini` to prevent priority conflicts.
+- **Kuro Extended GI**: Enabled full-resolution Global Illumination and high-fidelity particle interactions.
+- **Shadow Refinement**: Standardized shadow resolution at 1024 for optimal sharpness-to-thermal balance.
+
+### **v3.5**
 - **Native Resolution**: Added `r.MobileContentScaleFactor=0` for true native rendering.
 - **Chaos Physics**: Complete physics simulation tuning block (10+ CVars).
 - **Kuro Extended Visuals**: Added 11 new Kuro-specific visual CVars (GlobalGI, Tonemapping, etc.).
