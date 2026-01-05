@@ -129,7 +129,10 @@ The "Ultimate Edition" is split across 5 specialized files for modular performan
 
 ### **v3.7 (Latest)**
 - **LOD Philosophy Overhaul**: Removed all view distance, NPC distance, landscape LOD, and foliage cull overrides. Kuro's engine defaults are well-tuned for their game—we don't second-guess them.
+- **Streaming Trust**: Removed world partition loading range overrides (`wp.Runtime.*Scale`) and landscape capture size—let Kuro handle streaming.
+- **Water LOD Trust**: Removed `r.Water.WaterMesh.LODCountBias`—Kuro's water mesh LOD is fine.
 - **Preserved Character Detail**: Kept toon outline/eye/face shadow draw distances and mesh LOD biases for crisp character rendering at distance.
+- **Focus Refined**: Config now only touches: native resolution, effects, lighting, particles, and character detail.
 
 ### **v3.6**
 - **UFS 4.0 Optimization**: Increased streaming bandwidth to 100MB/s and enabled amortized CPU usage for seamless loading.
