@@ -1,9 +1,9 @@
-# WuWa Mobile Config - Ultimate Edition v3.6
+# WuWa Mobile Config - Ultimate Edition v3.7
 
 ![Target Device](https://img.shields.io/badge/Target_Device-Snapdragon_8_Elite-red?style=for-the-badge)
 ![Memory](https://img.shields.io/badge/Memory-16GB_RAM-blue?style=for-the-badge)
 ![FPS](https://img.shields.io/badge/Target_FPS-120-green?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-v3.6-gold?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-v3.7-gold?style=for-the-badge)
 
 Welcome to the **Ultimate Edition v3.6** configuration for Wuthering Waves on Android. This project is meticulously tuned for next-generation mobile hardware, specifically the **Snapdragon 8 Elite (Gen 5)** and devices with **16GB+ RAM** (like the RedMagic 11 Pro). 
 
@@ -29,11 +29,21 @@ Experience Wuthering Waves with desktop-class fidelity, stable 120 FPS performan
 ## 🔍 Technical Deep Dive
 
 ### 🎨 Visual Excellence
-The "Ultimate Edition" philosophy moves beyond simply turning everything to "Ultra." It balances rendering techniques to achieve a cinematic look:
-- **TAA Anti-Ghosting**: By increasing the `CurrentFrameWeight` to `0.28` and reducing sharpening to `0.2`, we eliminate the "trailing" effects common in mobile TAA while maintaining edge stability.
-- **Ultra-Tight Bloom**: A custom `SizeScale` of `0.005` prevents the "bloom blowout" that masks character details, keeping skill effects punchy but contained.
+The \"Ultimate Edition\" philosophy moves beyond simply turning everything to \"Ultra.\" It balances rendering techniques to achieve a cinematic look:
+- **TAA Anti-Ghosting**: By increasing the `CurrentFrameWeight` to `0.28` and reducing sharpening to `0.2`, we eliminate the \"trailing\" effects common in mobile TAA while maintaining edge stability.
+- **Ultra-Tight Bloom**: A custom `SizeScale` of `0.005` prevents the \"bloom blowout\" that masks character details, keeping skill effects punchy but contained.
 - **Warm Color Palette**: Meticulously adjusted RGB gains (`R=1.03, G=0.95, B=1.0`) provide a more natural, vibrant look, moving away from the flat, greenish default profile.
 - **Kuro-Specific Enhancements**: Unlocks advanced character rendering features like `Kuro.HairQuality=2` and `Kuro.CharacterShadowQuality=3` for high-fidelity protagonists.
+- **Character Detail at Distance**: Enhanced toon outline (2000 units), eye sparkle (800 units), and face shadow (800 units) draw distances for crisp character rendering.
+- **Mesh LOD Optimization**: Negative LOD bias (`-2`) forces higher detail skeletal/static meshes; hair and cloth maintain full quality with no LOD reduction.
+
+### 🚫 What We Don't Touch
+We intentionally avoid overriding these settings—**Kuro knows their game better than we do**:
+- **View Distance Scale**: World/object draw distances are left at engine defaults.
+- **NPC Appear/Disappear Distances**: Kuro's hysteresis logic prevents pop-in/out.
+- **Landscape LOD Distances**: Terrain detail transitions are engine-tuned.
+- **Foliage Cull Distances**: Grass/tree rendering distances remain stock.
+- **Shadow Cascades/Distances**: Shadow rendering is handled by Kuro's optimized pipeline.
 
 ### ⚔️ Physics & Interaction
 Combat is the heart of WuWa, and v3.5 brings desktop-grade simulation to mobile:
@@ -117,7 +127,11 @@ The "Ultimate Edition" is split across 5 specialized files for modular performan
 
 ## 📜 Changelog
 
-### **v3.6 (Latest)**
+### **v3.7 (Latest)**
+- **LOD Philosophy Overhaul**: Removed all view distance, NPC distance, landscape LOD, and foliage cull overrides. Kuro's engine defaults are well-tuned for their game—we don't second-guess them.
+- **Preserved Character Detail**: Kept toon outline/eye/face shadow draw distances and mesh LOD biases for crisp character rendering at distance.
+
+### **v3.6**
 - **UFS 4.0 Optimization**: Increased streaming bandwidth to 100MB/s and enabled amortized CPU usage for seamless loading.
 - **Physics Threading**: Increased Chaos worker threads to 6 to fully utilize the Snapdragon 8 Elite's performance cluster.
 - **Shader Cache Enhancement**: Enabled Vulkan pipeline cache (256MB) and mobile shader cache to eliminate region-entry stutters.
