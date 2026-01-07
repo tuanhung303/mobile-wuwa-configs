@@ -1,13 +1,13 @@
-# WuWa Mobile Config - Ultimate Edition v4.1
+# WuWa Mobile Config - Ultimate Edition v4.6
 
 ![Target Device](https://img.shields.io/badge/Target_Device-Snapdragon_8_Elite-red?style=for-the-badge)
 ![Memory](https://img.shields.io/badge/Memory-16GB_RAM-blue?style=for-the-badge)
 ![FPS](https://img.shields.io/badge/Target_FPS-120-green?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-v4.1-gold?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-v4.6-gold?style=for-the-badge)
 
-Welcome to the **Ultimate Edition v4.1** configuration for Wuthering Waves on Android. This project is meticulously tuned for next-generation mobile hardware, specifically the **Snapdragon 8 Elite (Gen 5)** and devices with **16GB+ RAM** (like the RedMagic 11 Pro). 
+Welcome to the **Ultimate Edition v4.6** configuration for Wuthering Waves on Android. This project is meticulously tuned for next-generation mobile hardware, specifically the **Snapdragon 8 Elite (Gen 5)** and devices with **16GB+ RAM** (like the RedMagic 10/11 Pro). 
 
-Experience Wuthering Waves with desktop-class fidelity, stable 120 FPS performance via **RHI Thread Pacing**, and a professional-grade visual presentation.
+Experience Wuthering Waves with desktop-class fidelity, stable 120 FPS performance via **Hardware Frame Generation (AFME 2.0)**, and a professional-grade visual presentation.
 
 ---
 
@@ -15,13 +15,13 @@ Experience Wuthering Waves with desktop-class fidelity, stable 120 FPS performan
 
 | Feature | Technical Implementation | Impact |
 | :--- | :--- | :--- |
-| **Frame Rate** | 120 FPS Output Ceiling | Silky smooth combat with Snapdragon 8 Elite power. |
-| **Frame Pacing** | Vulkan RHI Thread Pacer | Stable frame intervals without native estimation overhead. |
+| **Frame Rate** | 120 FPS via AFME 2.0 | Silky smooth combat with hardware-level frame interpolation. |
+| **Vulkan 1.3** | Bindless Descriptor Indexing | Desktop-class rendering that offloads driver overhead to the GPU. |
 | **Resolution** | 1:1 Native Pixel Rendering | Eliminates mobile upscaling blur; crystal clear image. |
-| **Vectorization** | ISPC Physics & Anim | Offloads heavy math to SIMD units (Oryon cores). |
-| **IO Pipeline** | 1.5GB Dispatcher Cache | Eliminates traversal hitches on high-speed UFS 4.0 storage. |
-| **Textures** | 2GB VRAM Pool + VT | Razor-sharp textures at all distances with no pop-in. |
-| **Stability** | Adreno Descriptor Safety | Prevents "Device Lost" crashes during intense skill spam. |
+| **Aesthetics** | 16x Anisotropy + Mobile SSS | PC-equivalent texture sharpness and character skin light diffusion. |
+| **Shadows** | Contact Shadows + Full GTAO | Superior grounding and depth with optimized HPM cache usage. |
+| **Memory** | 4GB Texture Pool + PSO Cache | Razor-sharp assets and zero shader stutter during region traversal. |
+| **Stability** | 16k Descriptor Pool | Prevents "Device Lost" crashes even during high-intensity skill bursts. |
 
 ---
 
@@ -34,16 +34,19 @@ The "Ultimate Edition" philosophy moves beyond simply turning everything to "Ult
 - **Warm Color Palette**: Meticulously adjusted RGB gains (`R=1.03, G=0.95, B=1.0`) provide a more natural, vibrant look, moving away from the flat, greenish default profile.
 - **Kuro-Specific Enhancements**: Unlocks advanced character rendering features like `Kuro.HairQuality=2` and `Kuro.CharacterShadowQuality=3` for high-fidelity protagonists.
 
-### ⚡ Performance & Stability (v4.0 Major)
-Harnessing the power of the Oryon cores and Adreno 830:
-- **SIMD Vectorization (ISPC)**: v4.0 enables over 30 **ISPC** entries for both Animation and Chaos Physics. This allows the Snapdragon 8 Elite's SIMD units to handle complex cloth and collision math, freeing up the main game threads.
-- **Vulkan Descriptor Safety**: Pre-reserves 1024 descriptor sets and raises the limit to 8192. This is critical for preventing "Device Lost" crashes when multiple Shorekeeper/Jinhsi skill effects are active simultaneously.
-- **IO Dispatcher Overhaul**: Expanded buffer memory to 384MB and cache to 1.5GB. Combined with UFS 4.0 storage, this creates a "hitch-free" traversal experience during fast grappling.
+### ⚡ Performance & Stability (v4.6 Major)
+Harnessing the power of the Oryon cores and Adreno 840:
+- **AFME 2.0 Hardware Frame Gen**: v4.6 moves from software pacing to the Adreno 840's native hardware frame motion engine for superior 120 FPS stability.
+- **Vulkan 1.3 Bindless Rendering**: Leverages the 8 Elite's desktop-class driver to access resources directly, reclaiming massive CPU overhead during draw call emission.
+- **512MB PSO Cache**: Expanded and optimized shader pipeline cache to ensure a completely hitch-free traversal experience across Solaris-3.
+- **Vulkan Descriptor Expansion**: Pre-reserves 2048 descriptor sets and raises the limit to 16,384. This is critical for preventing "Device Lost" crashes during complex skill bursts.
+- **IO Dispatcher Overhaul**: Expanded buffer memory and cache. Combined with UFS 4.0 storage, this creates a "hitch-free" traversal experience during fast grappling.
 
 ### 💾 Memory & Streaming
 Optimized for the massive 16GB RAM ceiling:
-- **Aggressive Purging**: Set `LevelStreamingLowMemoryPendingPurgeCount` to maximum to ensure RAM is freed immediately after region transitions, mitigating the long-term memory leaks in Kuro's build.
-- **2GB Texture Pool**: Allocates a dedicated 2GB buffer for textures, ensuring high-res assets are always ready for rendering.
+- **Aggressive Purging**: Set `LevelStreamingLowMemoryPendingPurgeCount` to maximum to ensure RAM is freed immediately after region transitions.
+- **4GB Texture Pool**: Allocates a dedicated 4GB buffer for textures—the optimal balance between visual fidelity and Android LMK stability.
+
 
 ---
 
@@ -102,15 +105,22 @@ The "Ultimate Edition" is split across 5 specialized files for modular performan
 | Issue | Potential Solution | CVar to Adjust |
 | :--- | :--- | :--- |
 | **Screen Flickering** | Some GPUs dislike HZB. | Set `r.HZBOcclusion=0` in `Engine.ini`. |
-| **Overheating** | 8 Elite is powerful but hot. | Reduce `r.Vulkan.MaxGPUClockScale` to `0.75` in `Performance.ini`. |
+| **Overheating** | 8 Elite is powerful but hot. | Reduce `r.Vulkan.MaxGPUClockScale` to `0.80` in `Performance.ini`. |
 | **Vulkan Crashes** | RobustBufferAccess stability. | Set `r.Vulkan.RobustBufferAccess=1` in `Engine.ini` (costs 3-5% FPS). |
-| **Input Lag** | RHI Pacing conflict. | Re-enable Native Gen: `r.FEstimation.Option=1` and `r.Vulkan.CPURHIThreadFramePacer=0`. |
+| **Micro-Stuttering** | RHI Pacing conflict. | Ensure `r.Vulkan.CPURHIThreadFramePacer=0` if using AFME. |
 
 ---
 
 ## 📜 Changelog
 
-### **v4.1 (Latest)**
+### **v4.6 (Latest)**
+- **Hardware Frame Gen (AFME 2.0)**: Switched to native hardware-level interpolation (Level 5) for 120 FPS.
+- **Vulkan 1.3 Bindless**: Enabled Descriptor Indexing and Bindless Rendering for reduced CPU driver overhead.
+- **Elite Core Affinity**: Rerouted RHI/FG threads to Performance cores (4-5) to give Oryon Primes (6-7) breathing room.
+- **Aesthetic Overhaul**: Enabled 16x Anisotropic Filtering, Mobile SSS, and high-fidelity Contact Shadows.
+- **Memory Scaling**: Expanded PSO cache to 512MB and Texture Pool to 4GB for seamless 16GB RAM utilization.
+
+### **v4.1**
 - **Threading Refinement**: Reduced Physics workers to 4 to prevent Performance core contention with RHI/Streaming threads.
 - **Exclusive AA Logic**: Disabled the redundant TAA stack in favor of pure FSR3 processing for maximum clarity.
 - **GPU Throughput Boost**: Disabled RobustBufferAccess to reclaim 3-5% GPU performance on Adreno 830.
