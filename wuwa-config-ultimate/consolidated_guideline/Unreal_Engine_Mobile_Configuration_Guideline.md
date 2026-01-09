@@ -189,6 +189,11 @@ r.Mobile.AdrenoOcclusionMode=1
 - Enables faster hardware occlusion queries on Qualcomm Adreno GPUs
 - Particularly beneficial for Meta Quest and similar devices
 
+**Adreno High Performance Memory (HPM) Cache:**
+- **Adreno 840 (Snapdragon 8 Elite)**: 12MB L2 Cache
+- **Recommended Setting**: `r.Vulkan.Adreno.HPMCacheSize=12288`
+- **Impact**: Maximizes tile residency in GMEM, reducing system RAM bandwidth usage.
+
 ---
 
 ## 4. Memory Buckets Configuration
@@ -334,8 +339,8 @@ r.Upscale.Quality=1|2|3           ; Upscale quality
 **Shadows:**
 ```ini
 r.ShadowQuality=0|1|2             ; Overall shadow quality
-r.Shadow.MaxResolution=1024|2048  ; Max shadow map resolution
-r.Shadow.MaxCSMResolution=1024|2048 ; Max cascaded shadow resolution
+r.Shadow.MaxResolution=1024|1536|2048  ; Max shadow map resolution (1536 recommended for high-end stability)
+r.Shadow.MaxCSMResolution=1024|1536|2048 ; Max cascaded shadow resolution
 r.Shadow.CSM.MaxCascades=1|2|3|4  ; Number of CSM cascades
 r.Shadow.DistanceScale=1.0        ; Shadow draw distance scale
 r.Shadow.CSMShadowDistanceFadeoutMultiplier=2.5
@@ -770,4 +775,36 @@ r.Shadow.MaxResolution=1024
 
 ---
 
-*Document compiled from official Epic Games Unreal Engine documentation. Last updated: January 2026*
+## 16. Special Topic: Frame Generation Architecture & Conflicts
+
+### 16.1 Architecture Overview
+For modern mobile devices (Snapdragon 8 Gen 3/Elite), there are two primary paths for high-frame-rate rendering:
+1.  **AFME (Adreno Frame Motion Engine)**: Kuro's hardware-accelerated implementation.
+2.  **FSR3 Frame Interpolation (FI)**: Software-based temporal interpolation.
+
+### 16.2 CRITICAL CONFLICT: AFME vs FSR3 FI
+**DO NOT ENABLE BOTH SIMULTANEOUSLY.** 
+
+| Issue | Impact |
+|-------|--------|
+| **Double Interpolation** | Extreme ghosting, smearing, and "jelly" UI artifacts. |
+| **Input Latency** | FSR3 FI adds 30-50ms; AFME adds 8-12ms. Combined = Unplayable. |
+| **Pacing Conflicts** | Both systems attempt to control the frame clock, causing micro-stutter. |
+
+### 16.3 Problematic CVars (Do Not Use with AFME)
+The following CVars are part of the FSR3 FI stack and should be **removed** when using AFME Level 5:
+- `r.FakeFrameRate`
+- `r.FidelityFX.FI.FrameRateMin`
+- `r.FidelityFX.FI.FrameRateMax`
+- `r.FidelityFX.FI.DebugOutput`
+- `r.FidelityFX.FSR3.FI=1`
+- `r.FidelityFX.FI.Enabled=1`
+
+### 16.4 Recommended Configuration
+- **Native Target**: 60 FPS (`t.MaxFPS=60`)
+- **Frame Gen**: AFME Level 5 (`r.Kuro.AFME.Enable=5`)
+- **Upscaling**: FSR3 Upscaling Only (`r.FidelityFX.FSR3.Enabled=1`, `r.FSR3.FI=0`)
+
+---
+
+*Document compiled from official Epic Games Unreal Engine documentation and Qualcomm Adreno optimization guides. Last updated: January 2026*

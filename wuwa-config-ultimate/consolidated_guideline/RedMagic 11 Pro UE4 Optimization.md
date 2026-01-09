@@ -35,9 +35,9 @@ The graphics processing unit, the Adreno 840, is the centerpiece of the Snapdrag
 
 #### **2.2.1 Adreno High Performance Memory (HPM)**
 
-A pivotal architectural addition is the Adreno High Performance Memory (HPM), a dedicated 18MB on-die graphics memory.2 In the context of a Tile-Based Deferred Renderer (TBDR), which the Adreno architecture utilizes, memory bandwidth to system RAM (LPDDR5X) is often the primary bottleneck.
+A pivotal architectural addition is the Adreno High Performance Memory (HPM), a dedicated 12MB on-die graphics memory.2 In the context of a Tile-Based Deferred Renderer (TBDR), which the Adreno architecture utilizes, memory bandwidth to system RAM (LPDDR5X) is often the primary bottleneck.
 
-TBDR GPUs process geometry and divide the screen into small tiles, rendering each tile entirely in fast, on-chip memory before writing the result to the frame buffer in system RAM. The 18MB HPM is significantly larger than the typical "GMEM" (Graphics Memory) found in previous generations. This expanded on-chip buffer allows for:
+TBDR GPUs process geometry and divide the screen into small tiles, rendering each tile entirely in fast, on-chip memory before writing the result to the frame buffer in system RAM. The 12MB HPM is significantly larger than the typical "GMEM" (Graphics Memory) found in previous generations. This expanded on-chip buffer allows for:
 
 1. **Larger Tile Sizes:** Reducing the overhead of binning geometry.  
 2. **Complex Render Passes:** Storing multiple render targets (Albedo, Normal, Depth, Roughness) simultaneously within the tile memory without needing to "resolve" (write out) to system RAM between passes. This is critical for deferred shading pipelines in UE4.  
@@ -59,7 +59,7 @@ The Hexagon NPU on the Gen 5 is reported to be 37% faster and 45% more efficient
 | :---- | :---- | :---- |
 | **Process Node** | TSMC 3nm (N3P) | High transistor density allows complex shaders without immediate thermal throttling. |
 | **CPU Config** | 2x Oryon Prime (4.6GHz), 6x Performance (3.62GHz) | Allows shifting physics/AI to performance cores; dedicate Prime to Game/Render threads. |
-| **GPU Architecture** | Adreno 840 Sliced, 1.2GHz, 18MB HPM | Enables bandwidth-heavy deferred shading and high-res post-processing on-chip. |
+| **GPU Architecture** | Adreno 840 Sliced, 1.2GHz, 12MB HPM | Enables bandwidth-heavy deferred shading and high-res post-processing on-chip. |
 | **Ray Tracing** | Hardware Accelerated (35% faster) | Makes hybrid ray-traced shadows and reflections viable in mobile scenes. |
 | **Memory Bandwidth** | LPDDR5X (Up to 10.7 Gbps) 2 | Faster asset streaming and GPU data fetching; reduces hitching. |
 
@@ -135,6 +135,9 @@ BaseProfileName\=Android\_High
 ; \--- Rendering Features \---  
 \+CVars\=r.Mobile.EnableSoftwareOcclusion=0 ; Disable SW occlusion, GPU culling is faster on Adreno 840\.  
 \+CVars\=r.Mobile.AllowDitheredLODTransition=1 ; Smooth transitions.  
+\+CVars\=r.Vulkan.Adreno.HPMCacheSize=12288 ; Corrected to Adreno 840 12MB L2 specification.
+\+CVars\=r.Shadow.MaxResolution=1536 ; High-fidelity shadows with stable frame times.
+\+CVars\=r.Shadow.MaxCSMResolution=1536
 \+CVars\=r.Shadow.CSM.MaxCascades=4 ; Use 4 shadow cascades for crisp shadows.  
 \+CVars\=r.Mobile.AllowDistanceFieldShadows=1 ; Enable DFS for static geometry.  
 \+CVars\=r.BloomQuality=5 ; High quality bloom.  
