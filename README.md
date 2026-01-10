@@ -1,7 +1,23 @@
 # Wuthering Waves: Ultimate Configuration Architecture
 ### Senior UE4 Graphics Tech Lead Blueprints for Snapdragon 8 Gen 5 (Adreno 840)
 
-This document defines the authoritative architectural blueprint for the **v5.5.0 Ultimate Edition** configuration. It serves as both a technical reference and a safeguard against misconfiguration.
+This document defines the authoritative architectural blueprint for the **v5.5.1 Ultimate Edition** configuration. It serves as both a technical reference and a safeguard against misconfiguration.
+
+---
+
+## What's New in v5.5.1 (Reviewed Experimental)
+
+**Code Review Approved** 4 experimental optimizations after rigorous analysis:
+
+### Approved Changes
+- **ParallelBeginFrame**: Parallel frame start logic (lower GT/RT latency)
+- **HalfPrecisionAlbedo**: FP16 albedo for 2x ALU throughput on Adreno
+- **GC Exclusion**: Skip 200K permanent objects (eliminates micro-stutters)
+- **VT Pool Scale**: 1.5x virtual texture cache (reduces pop-in)
+
+### Rejected by Reviewer
+- **DynamicRendering**: May conflict with Subpass Merging (both optimize TBDR)
+- **DistanceFieldShadows**: Too heavy for mobile, CSM is sufficient
 
 ---
 
@@ -177,6 +193,7 @@ pie title 16GB RAM Allocation (v5.5.0)
 
 | Version | Focus | Key Changes |
 |---------|-------|-------------|
+| **v5.5.1** | Reviewed Experimental | ParallelBeginFrame, FP16 Albedo, GC Exclusion, VT Scale |
 | **v5.5.0** | Phase 1+2 Comprehensive | LRZ, UBWC, GPU Scene, 6GB Pool, Async Tick Fix |
 | v5.4.1 | Draw Call Optimization | DynamicInstancing, CachedCommands, ParallelPassSetup |
 | v5.4.0 | Combat Stability | Niagara scaling, VRS Foveation, GC optimization |
