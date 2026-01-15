@@ -1,8 +1,8 @@
 # Snapdragon 8 Elite (Gen 5) Architecture Reference
 ## For Wuthering Waves UE4 Optimization
 
-> **Document Version**: v1.0 (January 2026)  
-> **Target Config Version**: v5.9.8-thermal  
+> **Document Version**: v1.1 (January 2026)  
+> **Target Config Version**: v6.0.0-thermal  
 > **Purpose**: Comprehensive hardware reference for AI agents optimizing Wuthering Waves configs
 
 ---
@@ -193,11 +193,17 @@ r.BasePassOutputsVelocity=1              ; Base pass velocity output
 
 ; Latency & Quality
 r.Kuro.AFME.LowLatencyMode=1             ; Processing latency reduction
-r.Kuro.AFME.UIOptimization=1             ; Prevents UI ghosting
+r.Kuro.AFME.UIOptimization=2             ; [v6.0.0] Level 2 = Stencil masking for HUD
+
+; UI Ghosting Fix (v6.0.0)
+r.TranslucencyOutputsVelocity=1          ; MV capture for damage numbers
+r.Mobile.TranslucencyOutputsVelocity=1   ; Mobile translucency velocity
+r.AFME2.MaskEnable=1                     ; Force hardware mask buffer
+r.AFME2.Mode=1                           ; Game Mode (MV-based)
 
 ; Frame Pacing
 t.MaxFPS=60                              ; MUST be 60 for AFME
-r.Vulkan.MaxFrameLatency=4               ; Frame buffer depth
+r.Vulkan.MaxFrameLatency=3               ; [v6.0.0] Frame buffer depth (was 4)
 ```
 
 ### 4.3 AFME Levels
@@ -396,8 +402,11 @@ These are mutually exclusive on Adreno. If VRS is enabled, UBWC is partially dis
 |------|-------|-------|
 | `r.Kuro.AFME.Enable` | 5 | Level 5 Elite |
 | `r.AFME2.Enable` | 1 | AFME 2.0 |
+| `r.AFME2.MaskEnable` | 1 | [v6.0.0] Hardware UI mask |
+| `r.AFME2.Mode` | 1 | [v6.0.0] Game Mode |
+| `r.Kuro.AFME.UIOptimization` | 2 | [v6.0.0] Stencil masking |
 | `t.MaxFPS` | 60 | **MUST be 60** |
-| `r.Vulkan.MaxFrameLatency` | 4 | Frame buffer depth |
+| `r.Vulkan.MaxFrameLatency` | 3 | [v6.0.0] Frame buffer depth |
 
 ---
 
@@ -405,6 +414,7 @@ These are mutually exclusive on Adreno. If VRS is enabled, UBWC is partially dis
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v1.2 | Jan 2026 | Added v6.0.0 UI ghosting fix CVars, updated AFME section |
 | v1.1 | Jan 2026 | Updated SGSR2 status to NOT IMPLEMENTED |
 | v1.0 | Jan 2026 | Initial documentation for v5.9.8-thermal |
 
