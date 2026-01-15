@@ -223,57 +223,38 @@ r.FakeFrameRate=XX                       ; FSR3 timing reference
 
 ## 5. SGSR2 Temporal Upscaling
 
-### 5.1 What is SGSR2?
+### 5.1 ⚠️ NOT IMPLEMENTED IN WUTHERING WAVES
 
-**Snapdragon Game Super Resolution 2 (SGSR2)** is Qualcomm's temporal upscaling solution:
+**CRITICAL**: Research confirms that Kuro Games has **NOT** integrated the SGSR2 plugin into Wuthering Waves.
 
-- Renders at lower resolution (e.g., 75%)
-- Upscales to native using temporal accumulation
-- Similar to FSR2/DLSS but optimized for Adreno
+| Technology | Developer Integration Status |
+|------------|------------------------------|
+| **AFME** | ✅ Implemented by Kuro Games |
+| **AFME 2.0** | ✅ Implemented by Kuro Games |
+| **SGSR2** | ❌ NOT integrated |
+| **SGSR1** | ❌ NOT integrated |
 
-### 5.2 SGSR2 CVars
+Adding `r.SGSR2.*` CVars to Engine.ini will have **NO EFFECT** as the required shaders and engine hooks are missing from the game binary.
 
-```ini
-r.SGSR2.Enabled=1                        ; Enable SGSR2
-r.SGSR2.Quality=1                        ; 0=Ultra(1.25x), 1=Quality(1.5x), 2=Balanced(1.7x), 3=Performance(2.0x)
-r.SGSR2.History=1                        ; 0=Max quality, 3=Performance
-r.SGSR2.5Sample=1                        ; Optimized 5-sample pattern
+### 5.2 Why SGSR2 Requires Developer Integration
 
-; Required companions
-r.DefaultFeature.AntiAliasing=2          ; TAA mode (REQUIRED)
-r.TemporalAA.Upsampling=1                ; Enable temporal upsampling
-r.MobileContentScaleFactor=0.75          ; Render at 75% resolution
-```
+Unlike AFME (which is a driver-level hardware feature), SGSR2 is a developer-level plugin. It requires:
 
-### 5.3 SGSR2 + AFME Compatibility
+1. **Plugin Compilation**: The developer must include the Qualcomm SGSR2 library in the game build.
+2. **Shader Integration**: The SGSR2 GLSL/HLSL shaders must be compiled into the game's PSO cache.
+3. **Buffer Routing**: The engine must explicitly feed SGSR2 the required buffers (Color, Depth, and Motion Vectors).
 
-**SGSR2 and AFME are COMPLEMENTS, not alternatives!**
+### 5.3 If Kuro Adds SGSR2 in Future
 
-| Technology | Function | Stage |
-|------------|----------|-------|
-| SGSR2 | Temporal upscaling | Post-process |
-| AFME | Frame generation | Frame interpolation |
-
-**Combined workflow:**
-```
-Game renders at 720p @ 30fps
-       ↓
-SGSR2 upscales to 1080p
-       ↓
-AFME generates frames → 60fps
-       ↓
-Display shows 1080p @ 60fps (or 120fps with AFME Level 5)
-```
-
-### 5.4 Current Config Status
-
-The v5.9.8 config does **NOT** use SGSR2 by default. It's available as an optional thermal pathway:
+If a future update integrates SGSR2, the following configuration would be the optimal "Ultra Quality" (1.18x upscale) pathway:
 
 ```ini
-; [Optional SGSR2 - Uncomment if thermal issues persist]
-; r.SGSR2.5Sample=1
-; r.MobileContentScaleFactor=0.85
-; r.TemporalAA.Upsampling=1
+; [HYPOTHETICAL - DO NOT USE YET]
+r.SGSR2.Enabled=1
+r.SGSR2.Quality=0                        ; 0=Ultra(1.18x), 1=Quality(1.5x)
+r.SGSR2.Variant=0                        ; 0=2-pass-FS (Fastest)
+r.SGSR2.Sharpness=1.0
+r.MobileContentScaleFactor=0.85          ; Render at 85% resolution
 ```
 
 ---
@@ -424,6 +405,7 @@ These are mutually exclusive on Adreno. If VRS is enabled, UBWC is partially dis
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v1.1 | Jan 2026 | Updated SGSR2 status to NOT IMPLEMENTED |
 | v1.0 | Jan 2026 | Initial documentation for v5.9.8-thermal |
 
 ---

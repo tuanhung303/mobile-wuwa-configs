@@ -1,7 +1,21 @@
 # Wuthering Waves: Ultimate Configuration Architecture
 ### Senior UE4 Graphics Tech Lead Blueprints for Snapdragon 8 Elite (Adreno 840)
 
-This document defines the authoritative architectural blueprint for the **v5.9.8-thermal Ultimate Edition** configuration. It serves as both a technical reference and a safeguard against misconfiguration.
+This document defines the authoritative architectural blueprint for the **v5.9.9-thermal Ultimate Edition** configuration. It serves as both a technical reference and a safeguard against misconfiguration.
+
+---
+
+## What's New in v5.9.9-thermal
+
+**SGSR2 Clarification & Cleanup** - This release removes non-functional upscaling CVars and clarifies the architecture:
+
+### SGSR2 Status
+- **REMOVED `r.SGSR2.*` CVars**: Extensive research confirms Kuro Games has NOT integrated the SGSR2 plugin into Wuthering Waves. These CVars are non-functional without developer-level integration.
+- **CLARIFIED AFME-Only Architecture**: Confirmed that AFME (Frame Generation) is officially supported, while SGSR2 (Temporal Upscaling) is not.
+
+### Documentation
+- **Updated Architecture Reference**: Rewritten Section 5 to correctly reflect implementation status.
+- **Thermal Fallbacks**: Added working alternative thermal fallback strategies (VRS/AF reduction).
 
 ---
 
@@ -235,6 +249,7 @@ wuwa-config-ultimate/
 
 | Version | Focus | Key Changes |
 |---------|-------|-------------|
+| **v5.9.9-thermal** | SGSR2 Clarification | Removed non-functional CVars, updated status docs |
 | **v5.9.8-thermal** | Conflict Resolution | Removed duplicates, aligned VT AF, synced DeviceProfiles |
 | **v5.9.7-thermal** | Expert-Validated Thermal | AFME 2.0 motion vectors, TBDR optimization, N-1 threading |
 | v5.9.6-thermal | Thermal Research | VRS/UBWC documentation, AFME 2.0 alignment |
@@ -251,14 +266,14 @@ wuwa-config-ultimate/
 
 ## SGSR2 + AFME Compatibility Note
 
-**SGSR2** (Snapdragon Game Super Resolution 2) and **AFME** are **complements, not alternatives**:
+**IMPORTANT**: While SGSR2 and AFME are theoretically compatible technologies:
 
-| Technology | Function | Stage |
-|------------|----------|-------|
-| SGSR2 | Temporal upscaling (render lower, upscale to native) | Post-process |
-| AFME | Frame generation (interpolate between frames) | Frame output |
+| Technology | Function | Kuro Implementation |
+|------------|----------|---------------------|
+| **SGSR2** | Temporal upscaling | ❌ NOT IMPLEMENTED |
+| **AFME** | Frame generation | ✅ IMPLEMENTED |
 
-The current config does **NOT** enable SGSR2 by default. It's available as an optional thermal pathway in Engine.ini if sustained thermal issues occur.
+The current config uses **native resolution rendering + AFME frame generation**. SGSR2 CVars will have no effect unless Kuro Games integrates the plugin in a future update.
 
 ---
 
