@@ -1,2 +1,6 @@
 *.zip
 other_configs
+out/
+*.log
+*.log.txt
+__pycache__/

@@ -1,0 +1,56 @@
+# Source: https://github.com/Arglax/Mobile-WuWa-Config (.github/forbidden_cvars.txt), copied 2026-10-23.
+# ConfigMonitor strips these from Saved ini files. Observed on 3.7.1 too (see FINDINGS.md).
+#Updated as of WuWa Version 3.6
+Kuro.CppEffectsystem.UseLowMemoryPlayerEffectLruCapacity
+r.AFME.Enable
+r.AsyncComputePSO
+r.DetailMode
+r.FEstimation.Option
+r.Kuro.SkeletalMesh.LODDistanceScale
+r.Kuro.TexturePool.ExtraBudgetMB
+r.KuroFI.Enable
+r.KuroMaterialQualityLevel
+r.LightMaxDrawDistanceScale
+r.MaterialQualityLevel
+r.MFRC.Enable
+r.MipMapLODBias
+r.Mobile.DeviceEvaluation
+r.MobileContentScaleFactor
+r.ParallelInitViews
+r.RayTracing.LimitDevice
+r.ScreenPercentage
+r.ScreenSizeCullRatioFactor
+r.SecondaryScreenPercentage.GameViewport
+r.Shadow.DistanceScale
+r.Shadow.MaxCSMResolution
+r.Shadow.MaxResolution
+r.streaming.AllowExtendedPoolSize
+r.Streaming.Boost
+r.Streaming.CPUReadback
+r.Streaming.DistancePriority.Texture2DArrayPriority
+r.streaming.ExtendedPoolSizeForceAllMipsThresholdPercentage
+r.streaming.ExtendedPoolSizeThresholdPercentage
+r.Streaming.KuroExtraPoolSize
+r.Streaming.LimitPoolSizeTOVRAM
+r.streaming.MaxExtendedPoolSizePercentage
+r.streaming.MaxExtendedPoolsizeVRAMPercentage
+r.Streaming.MaxNumTexturesTostreamPerFrame
+r.Streaming.MaxTempMemoryAllowed
+r.Streaming.MaxTempMemoryAllowedForTexture2DArray
+r.Streaming.MinBoost
+r.Streaming.MinMipForSplitRequest
+r.Streaming.PoolSize
+r.Streaming.PoolSizeExtraForTexture2DArray
+r.Streaming.Texture2DArrayStreamOutHysteresis
+r.Streaming.UseAllMips
+r.Streaming.UseAsyncCPUReadback
+r.Streaming.UseFixedPoolsize
+r.Streamline.DLSSG.RetainResourceswhenoff
+r.TextureGroup.Landscape.TextureLODBias
+r.ViewDistanceScale
+r.VolumetricFog
+r.VRS.EnableMaterial
+r.VRS.EnableMesh
+s.PriorityAsyncLoadingExtraTime
+# Seen stripped on 3.7.1, not in the 3.6 list:
+r.Streaming.PoolSizeForMeshes
